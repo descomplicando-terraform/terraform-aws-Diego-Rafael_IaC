@@ -6,9 +6,9 @@ Projeto Teste para utilização de infraestrutura como código onde é possível
 
 ## Utilização do projeto
 
-Definir o CIDR da VPC
-Definir a quantidade de instâncias web e o tipo da instância
-Definir os volumes a serem criados, respeitando o tipo e tamanho do volume
+- Definir o CIDR da VPC
+- Definir a quantidade de instâncias web e o tipo da instância
+- Definir os volumes a serem criados, respeitando o tipo e tamanho do volume
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
