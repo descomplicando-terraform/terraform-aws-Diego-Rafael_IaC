@@ -1,10 +1,10 @@
 resource "aws_security_group" "vpc-terraform-all-traffic" {
   name        = "vpc-terraform"
   description = "vpc-terraform-all-traffic"
-  vpc_id      = module.vpc.vpc-terraform.id
+  vpc_id      = var.vpc_terraform.id
   ingress {
     description = "vpc-terraform-all-traffic"
-    cidr_blocks = [module.vpc.vpc-terraform.cidr_block]
+    cidr_blocks = [var.vpc_terraform.cidr_block]
     protocol    = "-1"
     to_port     = 0
     from_port   = 0
@@ -20,5 +20,32 @@ resource "aws_security_group" "vpc-terraform-all-traffic" {
 
   tags = {
     Name = "vpc-terraform"
+  }
+}
+
+# Criar o grupo de segurança para o Load Balancer
+resource "aws_security_group" "alb-web-instances" {
+  name        = "alb-web-instances"
+  description = "Liberar o tráfego entre as instancias EC2 e o LB"
+  vpc_id      = var.vpc_terraform.id
+
+  ingress {
+    description = "Allow HTTP traffic Local"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["177.37.240.64/32"]
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-egress-sgr
+  }
+
+  tags = {
+    Name = "alb-web-instances"
   }
 }

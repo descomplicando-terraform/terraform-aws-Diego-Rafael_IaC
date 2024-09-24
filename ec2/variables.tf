@@ -24,3 +24,7 @@ variable "subnets_map" {
   type        = map(string)
   description = "Map of subnet IDs to distribute instances"
 }
+
+variable "vpc_terraform" {
+  type = any
+}

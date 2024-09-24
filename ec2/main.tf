@@ -1,7 +1,3 @@
-module "vpc" {
-  source = "../vpc"
-}
-
 resource "aws_instance" "web" {
   for_each = { for instance in local.instances : instance.name => instance }
 
