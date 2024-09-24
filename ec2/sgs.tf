@@ -26,7 +26,7 @@ resource "aws_security_group" "vpc-terraform-all-traffic" {
 # Criar o grupo de segurança para o Load Balancer
 resource "aws_security_group" "alb-web-instances" {
   name        = "alb-web-instances"
-  description = "Liberar o tráfego entre as instancias EC2 e o LB"
+  description = "Liberar o trafego entre as instancias EC2 e o LB"
   vpc_id      = var.vpc_terraform.id
 
   ingress {
