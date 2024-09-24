@@ -1,4 +1,4 @@
-output "vpc-terraform" {
+output "vpc_terraform" {
   value = aws_vpc.vpc-terraform
 }
 
