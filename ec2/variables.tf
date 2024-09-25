@@ -9,7 +9,7 @@ variable "instance_name_prefix" {
   description = "Prefix for the names of the instances"
 }
 
-variable "instance_web_count" {
+variable "instance_docker_count" {
   description = "The number of instances app to create"
   type        = number
   default     = 2
