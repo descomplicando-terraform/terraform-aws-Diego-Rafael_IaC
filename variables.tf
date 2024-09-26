@@ -1,3 +1,9 @@
+variable "vpc_cidr_block" {
+  description = "CIDR block VPC"
+  type        = string
+  default     = "192.168.2.0/24"
+}
+
 variable "instance_type" {
   description = "Tipo da instância de teste"
   type        = string
@@ -23,8 +29,4 @@ variable "ebs_block_device" {
 variable "subnets_map" {
   type        = map(string)
   description = "Map of subnet IDs to distribute instances"
-}
-
-variable "vpc_terraform" {
-  type = any
 }
