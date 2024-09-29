@@ -1,10 +1,18 @@
 #Map para criacao das instancias
 locals {
-  subnets_map = {
-    "subnet-east1a" = aws_subnet.subnet-public-terraform-east1a.id,
-    "subnet-east1c" = aws_subnet.subnet-public-terraform-east1c.id
+  public_subnets = {
+    "subnet-east1a-public" = aws_subnet.subnet-public-terraform-east1a.id,
+    "subnet-east1c-public" = aws_subnet.subnet-public-terraform-east1c.id,
   }
+
+  private_subnets = var.create_private_subnets ? {
+    "subnet-east1a-private" = aws_subnet.subnet-private-terraform-east1a[0].id,
+    "subnet-east1c-private" = aws_subnet.subnet-private-terraform-east1c[0].id
+  } : {}
+
+  subnets_map = merge(local.public_subnets, local.private_subnets)
 }
+
 # Extraindo as chaves do mapa de sub-redes para criar instâncias alternando nas sub-redes
 locals {
   subnet_keys = keys(var.subnets_map)
@@ -64,6 +72,20 @@ resource "aws_subnet" "subnet-public-terraform-east1c" {
   vpc_id            = aws_vpc.vpc-terraform.id
   availability_zone = "us-east-1c"
   cidr_block        = cidrsubnet(aws_vpc.vpc-terraform.cidr_block, 3, 2)
+}
+
+resource "aws_subnet" "subnet-private-terraform-east1a" {
+  count             = var.create_private_subnets ? 1 : 0
+  vpc_id            = aws_vpc.vpc-terraform.id
+  availability_zone = "us-east-1a"
+  cidr_block        = cidrsubnet(aws_vpc.vpc-terraform.cidr_block, 3, 1)
+}
+
+resource "aws_subnet" "subnet-private-terraform-east1c" {
+  count             = var.create_private_subnets ? 1 : 0
+  vpc_id            = aws_vpc.vpc-terraform.id
+  availability_zone = "us-east-1c"
+  cidr_block        = cidrsubnet(aws_vpc.vpc-terraform.cidr_block, 3, 3)
 }
 
 # Associando as subnets criadas a tabela de rotas
