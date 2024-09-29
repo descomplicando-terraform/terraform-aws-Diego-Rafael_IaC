@@ -1,16 +1,3 @@
-# Terraform-AWS-IaC
-Criação do MVP para utilização de IaC via terraform
-
-## Apresentação do projeto
-Projeto Teste para utilização de infraestrutura como código onde é possível criar um cenário de testes a partir do zero, consistindo no deploy de toda a infraestrutura necessária, incluindo VPCs, Subnets, SGs e EC2.
-
-## Utilização do projeto
-
-- Definir o CIDR da VPC
-- Definir a quantidade de instâncias web e o tipo da instância
-- Definir os volumes a serem criados, respeitando o tipo e tamanho do volume
-
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
@@ -19,7 +6,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.68.0 |
 
 ## Modules
 
@@ -64,4 +51,3 @@ No modules.
 | <a name="output_docker_public_ips"></a> [docker\_public\_ips](#output\_docker\_public\_ips) | IPs Publicos das instâncias docker |
 | <a name="output_subnets_map"></a> [subnets\_map](#output\_subnets\_map) | n/a |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | n/a |
-<!-- END_TF_DOCS -->
