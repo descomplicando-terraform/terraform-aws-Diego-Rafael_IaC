@@ -2,6 +2,11 @@ variable "vpc_cidr_block" {
   description = "CIDR block VPC"
   type        = string
   default     = "192.168.2.0/24"
+
+  validation {
+    condition     = can(cidrhost(var.vpc_cidr_block, 24))
+    error_message = "O cidr_block precisa de um endereço IP /24 válido."
+  }
 }
 
 variable "instance_type" {

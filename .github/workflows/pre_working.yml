@@ -1,0 +1,62 @@
+name: pre-working
+run-name: ${{ github.actor }} checagens basicas do terraform
+on: 
+  push:
+
+permissions:
+  contents: write  # Permissões para fazer push de alterações no repositório
+   
+jobs:
+  tfsec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: baixando o código
+        uses: actions/checkout@v4
+      - name: executando o tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          github_token: ${{ github.token }}
+
+  terraform-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixando o código
+        uses: actions/checkout@v4
+
+      - name: Instalar terraform-docs
+        run: |
+          curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.19.0/terraform-docs-v0.19.0-$(uname)-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          mv terraform-docs /usr/local/bin/terraform-docs
+
+      - name: Verificar instalação do terraform-docs
+        run: terraform-docs --version
+
+      - name: Gerar documentação do Terraform
+        run: terraform-docs markdown . > README.md  # Executa na raiz do repositório
+
+      - name: Verificar se README.md foi modificado
+        id: check_diff
+        run: |
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "README.md não foi modificado."
+            echo "modified=false" >> $GITHUB_ENV  # Define a variável de ambiente
+          else
+            echo "README.md foi modificado."
+            echo "modified=true" >> $GITHUB_ENV  # Define a variável de ambiente
+          fi
+
+      - name: Configurar Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+
+      - name: Fazer commit das alterações no README.md
+        if: env.modified == 'true'  # Executa o commit apenas se README.md foi modificado
+        run: |
+          git commit -m "Atualizando a documentação do Terraform"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
