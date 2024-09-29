@@ -35,3 +35,9 @@ variable "subnets_map" {
   type        = map(string)
   description = "Map of subnet IDs to distribute instances"
 }
+
+variable "create_private_subnets" {
+  description = "Flag to create private subnets"
+  type        = bool
+  default     = false
+}
